@@ -1,12 +1,16 @@
 {
   "name": "practical-inheritance",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A true prototypal inheritance pattern that effectively replaces the classical constructor pattern",
   "main": "index.js",
   "scripts": {
     "test": "./node_modules/.bin/mocha"
   },
-  "files": [ "index.js", "LICENSE", "README.md" ],
+  "files": [
+    "index.js",
+    "LICENSE",
+    "README.md"
+  ],
   "repository": {
     "type": "git",
     "url": "https://github.com/laconbass/practical-inheritance.git"
