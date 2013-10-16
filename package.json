@@ -1,0 +1,27 @@
+{
+  "name": "practical-inheritance",
+  "version": "1.0.0",
+  "description": "A true prototypal inheritance pattern that effectively replaces the classical constructor pattern",
+  "main": "index.js",
+  "scripts": {
+    "test": "./node_modules/.bin/mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/laconbass/practical-inheritance.git"
+  },
+  "keywords": [
+    "oop",
+    "prototypal",
+    "inheritance",
+    "pattern"
+  ],
+  "author": "Lorenzo García Rivera",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/laconbass/practical-inheritance/issues"
+  },
+  "devDependencies": {
+    "mocha": "~1.13.0"
+  }
+}
