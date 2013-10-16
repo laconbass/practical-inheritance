@@ -1,6 +1,7 @@
-# iai-oop
+The practical inheritance pattern has been designed to standarize the inheritance pattern used within [iai](https://npmjs.org/search?q=iai) modules. It has been published independently, attached to the following paper:
 
-iai-oop is a utility belt to deal with object declarations, in the context of OOP for javascript. It has been designed to standarize the inheritance pattern used within [iai](https://npmjs.org/search?q=iai) related modules.
+# An alternative to the *constructor pattern*, by @laconbass
+
 
 ## Principles
 
