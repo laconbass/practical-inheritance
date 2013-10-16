@@ -1,6 +1,6 @@
 The practical inheritance pattern has been designed to standarize the inheritance pattern used within [iai](https://npmjs.org/search?q=iai) modules. It has been published independently, attached to the following paper:
 
-# An alternative to the *constructor pattern*, by @laconbass
+# An alternative to the *constructor pattern*
 
 
 ## Principles
