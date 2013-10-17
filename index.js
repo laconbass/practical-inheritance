@@ -24,6 +24,20 @@
 module.exports = builder;
 module.exports.extend = extend;
 
+/**
+ * define constructor's prototype.
+ * @function builder: creates a function that will apply to `builder` the proper
+ * context, being the current context (`this`) if it's an object inheriting from
+ * `prototype` or `prototype` elsecase. Additionally, any object who has `prototype`
+ * on its prototype chain will pass an `instanceof` check against the returned
+ * function. Optionaly provides acces to `extend` functionalities: If extension is
+ * given, use as `prototype` the result of extending `prototype` with `extension`.
+ *   @param builder [Function]
+ *   @param prototype [Object|Null]
+ *   @param extension [Function|undefined] (Optional)
+ *   @returns Function
+ */
+
 function builder( builder, prototype, extension ){
   if( extension ){
     prototype = extend( prototype, extension );
@@ -37,6 +51,18 @@ function builder( builder, prototype, extension ){
   builderWrap.prototype = prototype;
   return builderWrap;
 };
+
+/**
+ * @function extend: creates a new object with the specified `prototype` and
+ * defines on it as many properties as the own enumerable properties that the
+ * `extension` object has.
+ *   @param prototype [Object|null]: the object to be used as prototype
+ *   @param extension [Object]: the object to be used as extension
+ *
+ * As aditional reference, see on the ECMA 5.1 spec...
+ * - [Object.create alghoritm](http://www.ecma-international.org/ecma-262/5.1/#sec-15.2.3.5)
+ * - ["prototype" definition](http://www.ecma-international.org/ecma-262/5.1/#sec-4.3.5)
+ */
 
 function extend( prototype, extension ){
   var object = Object.create( prototype );
