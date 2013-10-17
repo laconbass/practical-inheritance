@@ -78,7 +78,7 @@ The big concern now is how to implement the inheritance chain, where objects cre
       Grandpa.prototype = {
         // ...
       };
-      
+
       function Parent(){
         var instance = Grandpa.call(this);
         // initialize the instance...
@@ -87,7 +87,7 @@ The big concern now is how to implement the inheritance chain, where objects cre
       Parent.prototype = Object.create( Grandpa.prototype );
       // Parent.prototype.x = ...
       // ...
-      
+
       function Child(){
         var instance = Parent.call(this);
         // initialize the instance...
@@ -96,11 +96,11 @@ The big concern now is how to implement the inheritance chain, where objects cre
       Child.prototype = Object.create( Parent.prototype );
       // Child.prototype.x = ...
       // ...
-      
+
       var grandpa = Grandpa.call( Grandpa.prototype );
       var parent = Parent.call( Parent.prototype );
       var child = Child.call( Child.prototype );
-        
+
 As seen above, now both the declaration and the creation of new objects becomes unnecesarily verbose. That's reason enough to use a helper function. In fact two functions are needed, one to *extend* prototypes and another to *wrap builders to ensure they are executed within a proper context*.
 
     function extend( prototype, extension ){
@@ -112,7 +112,7 @@ As seen above, now both the declaration and the creation of new objects becomes 
       }
       return object;
     };
-    
+
     function builder( builder, prototype, extension ){
       if( extension ){
         prototype = extend( prototype, extension );
@@ -129,7 +129,7 @@ As seen above, now both the declaration and the creation of new objects becomes 
 
 The `extend` function creates a new object with the specified `prototype` and defines on it as many properties as the own enumerable properties that the `extension` object has.
 
-The `builder` function creates a function that will apply to `builder` the proper context, being the current context (`this`) if it's an object inheriting from `prototype` or `prototype` elsecase. Optionaly provides acces to `extend` functionalities.
+The `builder` function creates a function that will apply to `builder` the proper context, being the current context (`this`) if it's an object inheriting from `prototype` or `prototype` elsecase. Additionally, any object who has `prototype` on its prototype chain will pass an `instanceof` check against the returned function. Optionaly provides acces to `extend` functionalities: If extension is given, use as `prototype` the result of extending `prototype` with `extension`.
 
 With the help of this tools, the previous example can be rewrited as follows:
 
@@ -140,7 +140,7 @@ With the help of this tools, the previous example can be rewrited as follows:
       }, {
         // Grandpa.prototype...
       });
-      
+
       var Parent = builder(function(){
         var instance = Grandpa.call(this);
         // initialize the instance...
@@ -148,7 +148,7 @@ With the help of this tools, the previous example can be rewrited as follows:
       }, Grandpa.prototype, {
         // Parent.prototype ...
       });
-      
+
       var Child = builder(function(){
         var instance = Parent.call(this);
         // initialize the instance...
@@ -156,7 +156,7 @@ With the help of this tools, the previous example can be rewrited as follows:
       }, Parent.prototype, {
         // Child.prototype ...
       });
-      
+
       var grandpa = Grandpa();
       var parent = Parent();
       var child = Child();
@@ -168,15 +168,15 @@ When initialization is not needed, there is also a mechanism to inherit one obje
       var Grandpa = {
         // ...
       };
-      
+
       var Parent = extend( Grandpa, {
         // ...
       });
-      
+
       var Child = extend( Parent, {
         // ...
       });
-      
+
       var grandpa = Object.create(Grandpa);
       var parent = Object.create(Parent);
       var child = Object.create(Child);
