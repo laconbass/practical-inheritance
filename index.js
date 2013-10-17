@@ -30,12 +30,8 @@ function builder( builder, prototype, extension ){
   }
   function builderWrap(){
     if( prototype.isPrototypeOf(this) ){
-      console.log( "is prototype" )
       var context = this;
     }
-    console.log( "apply", require('util').inspect(
-      context || prototype, { depth: null }
-    ) );
     return builder.apply( context || prototype, arguments );
   };
   builderWrap.prototype = prototype;
