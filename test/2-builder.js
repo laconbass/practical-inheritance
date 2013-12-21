@@ -12,6 +12,9 @@ describe("builder", function(){
   it( "should behave as demonstrated in example #2", function(){
     require( "../examples/2-builder" );
   })
+  it( "should be able to extend from null as demonstrated in example #3", function(){
+    require( "../examples/3-builder-from-null" );
+  })
   it( "should ease debugging through builderWrap.toString", function(){
     assert("[builder anonymous]" == builder(function(){}).toString() );
     assert("[builder SomeName]" == builder(function SomeName(){}).toString() )
