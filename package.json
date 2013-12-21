@@ -1,6 +1,6 @@
 {
   "name": "practical-inheritance",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "A true prototypal inheritance pattern that effectively replaces the classical constructor pattern",
   "main": "lib/index.js",
   "scripts": {
