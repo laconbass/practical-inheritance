@@ -23,7 +23,6 @@
 
 module.exports = createBuilder;
 module.exports.extend = extend;
-module.exports.callable = createCallable;
 
 /**
  * @function extend: creates a new object with the specified `prototype` and
@@ -75,21 +74,4 @@ function createBuilder( build, prototype, extension ){
     return "[builder "+(build.name||"anonymous")+"]";
   }
   return builder;
-};
-
-
-function createCallable( prototype, _call ){
-  _call = _call || '_call';
-  function callable( ){
-    return callable[ _call ].apply( callable, arguments );
-  }
-
-  // mixin callable prototype
-  callable.__proto__ = prototype;
-
-  callable.toString = function(){
-    return "[callable "+prototype+"#"+_call+"]";
-  }
-
-  return callable;
 };
