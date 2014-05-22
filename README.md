@@ -5,6 +5,10 @@ The practical inheritance pattern has been designed to standarize the inheritanc
 # An alternative to the *constructor pattern*
 
 
+**Note**: This document is a review of a [previous version of this document].
+
+[previous version of this document]: https://github.com/laconbass/practical-inheritance/blob/v1.1.3/README.md
+
 ## Principles
 
 > **Simplicity & expressiveness**
@@ -127,115 +131,9 @@ Both code snippnets above will pass an `instanceof` check as expected. Any `obje
 
 ## The inheritance chain
 
-The big concern now is how to implement the inheritance chain, where objects created through builders inherit from other objects created through builders. Each derived object has to perform ancestor's initializing routines too so is needed a mechanism with prototypes inheriting from ancestor prototypes while builders internally call the ancestor builders. The key is to ensure that the oldest ancestor on the chain will create the new object specifing the child's prototype. There are many solutions, but the simpler is execute builders within the context of the desired prototypes.
+Work in progress...
 
-      function Grandpa(){
-        var instance = Object.create(this);
-        // initialize the instance...
-        return instance;
-      }
-      Grandpa.prototype = {
-        // ...
-      };
+## Note
 
-      function Parent(){
-        var instance = Grandpa.call(this);
-        // initialize the instance...
-        return instance;
-      }
-      Parent.prototype = Object.create( Grandpa.prototype );
-      // Parent.prototype.x = ...
-      // ...
+This document is being reviewed as the buider pattern is being reviewed too. Please follow to [previous version of this document] for further understanding of the *builder pattern* and its beginnings.
 
-      function Child(){
-        var instance = Parent.call(this);
-        // initialize the instance...
-        return instance;
-      }
-      Child.prototype = Object.create( Parent.prototype );
-      // Child.prototype.x = ...
-      // ...
-
-      var grandpa = Grandpa.call( Grandpa.prototype );
-      var parent = Parent.call( Parent.prototype );
-      var child = Child.call( Child.prototype );
-
-As seen above, now both the declaration and the creation of new objects becomes unnecesarily verbose. That's reason enough to use a helper function. In fact two functions are needed, one to *extend* prototypes and another to *wrap builders to ensure they are executed within a proper context*.
-
-    function extend( prototype, extension ){
-      var object = Object.create( prototype );
-      for( var property in extension ){
-        if( extension.hasOwnProperty(property) ){
-          object[property] = extension[property];
-        }
-      }
-      return object;
-    };
-
-    function builder( builder, prototype, extension ){
-      if( extension ){
-        prototype = extend( prototype, extension );
-      }
-      function builderWrap(){
-        if( prototype.isPrototypeOf(this) ){
-          var context = this;
-        }
-        return builder.apply( context | prototype, arguments );
-      };
-      builderWrap.prototype = prototype;
-      return builderWrap;
-    };
-
-The `extend` function creates a new object with the specified `prototype` and defines on it as many properties as the own enumerable properties that the `extension` object has.
-
-The `builder` function creates a function that will apply to `builder` the proper context, being the current context (`this`) if it's an object inheriting from `prototype` or `prototype` elsecase. Additionally, any object who has `prototype` on its prototype chain will pass an `instanceof` check against the returned function. Optionaly provides acces to `extend` functionalities: If extension is given, use as `prototype` the result of extending `prototype` with `extension`.
-
-With the help of this tools, the previous example can be rewrited as follows:
-
-      var Grandpa = builder(function(){
-        var instance = Object.create(this);
-        // initialize the instance...
-        return instance;
-      }, {
-        // Grandpa.prototype...
-      });
-
-      var Parent = builder(function(){
-        var instance = Grandpa.call(this);
-        // initialize the instance...
-        return instance;
-      }, Grandpa.prototype, {
-        // Parent.prototype ...
-      });
-
-      var Child = builder(function(){
-        var instance = Parent.call(this);
-        // initialize the instance...
-        return instance;
-      }, Parent.prototype, {
-        // Child.prototype ...
-      });
-
-      var grandpa = Grandpa();
-      var parent = Parent();
-      var child = Child();
-
-That's all, the target is accomplished. There is no need of *classes* and no need to use the *new* keyword. This pattern decouples the creation and initialization of objects from its representation while maintains a true prototypal inheritance pattern. The mechanism to check instance types is the `instanceof` operator.
-
-When initialization is not needed, there is also a mechanism to inherit one object from another:
-
-      var Grandpa = {
-        // ...
-      };
-
-      var Parent = extend( Grandpa, {
-        // ...
-      });
-
-      var Child = extend( Parent, {
-        // ...
-      });
-
-      var grandpa = Object.create(Grandpa);
-      var parent = Object.create(Parent);
-      var child = Object.create(Child);
