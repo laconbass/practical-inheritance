@@ -37,13 +37,13 @@ module.exports.extend = extend;
  */
 
 function extend( prototype, extension ){
-  var object = Object.create( prototype );
+  prototype = Object.create( prototype );
   for( var property in extension ){
     if( extension.hasOwnProperty(property) ){
-      object[property] = extension[property];
+      prototype[ property ] = extension[ property ];
     }
   }
-  return object;
+  return prototype;
 };
 
 /**
