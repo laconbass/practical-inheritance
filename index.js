@@ -21,44 +21,16 @@
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-module.exports = builder;
+module.exports = createBuilder;
 module.exports.extend = extend;
-
-/**
- * define constructor's prototype.
- * @function builder: creates a function that will apply to `builder` the proper
- * context, being the current context (`this`) if it's an object inheriting from
- * `prototype` or `prototype` elsecase. Additionally, any object who has `prototype`
- * on its prototype chain will pass an `instanceof` check against the returned
- * function. Optionaly provides access to `extend` functionalities: If extension is
- * given, use as `prototype` the result of extending `prototype` with `extension`.
- *   @param builder [Function]
- *   @param prototype [Object|Null]
- *   @param extension [Function|undefined] (Optional)
- *   @returns Function
- */
-
-function builder( builder, prototype, extension ){
-  if( extension ){
-    prototype = extend( prototype, extension );
-  }
-  function builderWrap(){
-    var is = Object.prototype.isPrototypeOf.call(prototype, this);
-    return builder.apply( is? this : prototype, arguments );
-  };
-  builderWrap.prototype = prototype;
-  builderWrap.toString = function(){
-    return "[builder "+(builder.name||"anonymous")+"]";
-  }
-  return builderWrap;
-};
+module.exports.callable = createCallable;
 
 /**
  * @function extend: creates a new object with the specified `prototype` and
  * defines on it as many properties as the own enumerable properties that the
  * `extension` object has.
- *   @param prototype [Object|null]: the object to be used as prototype
- *   @param extension [Object]: the object to be used as extension
+ *   @param <Object|null> prototype: the object to be used as prototype
+ *   @param <Object> extension: the object to be used as extension
  *
  * As aditional reference, see on the ECMA 5.1 spec...
  * - [Object.create alghoritm](http://www.ecma-international.org/ecma-262/5.1/#sec-15.2.3.5)
@@ -73,4 +45,51 @@ function extend( prototype, extension ){
     }
   }
   return object;
+};
+
+/**
+ * @function createBuilder: creates a function that will apply to `build` the proper
+ * context, being the current context (`this`) if it's an object inheriting from
+ * `prototype` or `prototype` elsecase. Additionally, any object who has `prototype`
+ * on its prototype chain will pass an `instanceof` check against the returned
+ * function. Optionaly provides access to `extend` functionalities: If extension is
+ * given, use as `prototype` the result of extending `prototype` with `extension`.
+ *   @param <Function> build
+ *   @param <Object|null> prototype
+ *   @param <Object?> extension
+ *   @returns <Function>
+ */
+
+function createBuilder( build, prototype, extension ){
+  if( extension ){
+    prototype = extend( prototype, extension );
+  }
+  function builder(){
+    return build.apply(
+      Object.prototype.isPrototypeOf.call(prototype, this)? this : prototype,
+      arguments
+    );
+  };
+  builder.prototype = prototype;
+  builder.toString = function(){
+    return "[builder "+(build.name||"anonymous")+"]";
+  }
+  return builder;
+};
+
+
+function createCallable( prototype, _call ){
+  _call = _call || '_call';
+  function callable( ){
+    return callable[ _call ].apply( callable, arguments );
+  }
+
+  // mixin callable prototype
+  callable.__proto__ = prototype;
+
+  callable.toString = function(){
+    return "[callable "+prototype+"#"+_call+"]";
+  }
+
+  return callable;
 };

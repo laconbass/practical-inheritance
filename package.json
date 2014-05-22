@@ -1,14 +1,14 @@
 {
   "name": "practical-inheritance",
-  "version": "1.1.2",
-  "description": "A true prototypal inheritance pattern that effectively replaces the classical constructor pattern",
-  "main": "lib/index.js",
+  "version": "1.2.0",
+  "description": "An alternative to the constructor pattern",
+  "main": "index.js",
   "scripts": {
     "test": "make test",
     "prepublish": "make clean"
   },
   "files": [
-    "lib",
+    "index.js",
     "LICENSE",
     "README.md"
   ],
@@ -20,7 +20,10 @@
     "oop",
     "prototypal",
     "inheritance",
-    "pattern"
+    "pattern",
+    "constructor",
+    "builder",
+    "extend"
   ],
   "author": "Lorenzo García Rivera",
   "license": "MIT",

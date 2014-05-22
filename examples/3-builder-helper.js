@@ -45,25 +45,25 @@ var child = Child();
 // Checking who is prototype of who
 //
 
-assert( !Grandpa.prototype.isPrototypeOf(Grandpa.prototype),
+assert( ! Grandpa.prototype.isPrototypeOf(Grandpa.prototype),
             "Grandpa's prototype should not be on Grandpa's prototype chain" )
 assert( Grandpa.prototype.isPrototypeOf(Parent.prototype),
        "Grandpa's prototype should be on Parent's prototype chain" )
 assert( Grandpa.prototype.isPrototypeOf(Child.prototype),
        "Grandpa's prototype should be on Child's prototype chain" )
 
-assert( !Parent.prototype.isPrototypeOf(Grandpa.prototype),
+assert( ! Parent.prototype.isPrototypeOf(Grandpa.prototype),
             "Parent's prototype should not be on Grandpa's prototype chain" )
-assert( !Parent.prototype.isPrototypeOf(Parent.prototype),
+assert( ! Parent.prototype.isPrototypeOf(Parent.prototype),
        "Parent's prototype should not be on Parent's prototype chain" )
 assert( Parent.prototype.isPrototypeOf(Child.prototype),
        "Parent's prototype should be on Child's prototype chain" )
 
-assert( !Child.prototype.isPrototypeOf(Grandpa.prototype),
+assert( ! Child.prototype.isPrototypeOf(Grandpa.prototype),
             "Child's prototype should not be on Grandpa's prototype chain" )
-assert( !Child.prototype.isPrototypeOf(Parent.prototype),
+assert( ! Child.prototype.isPrototypeOf(Parent.prototype),
        "Child's prototype should not be on Parent's prototype chain" )
-assert( !Child.prototype.isPrototypeOf(Child.prototype),
+assert( ! Child.prototype.isPrototypeOf(Child.prototype),
        "Child's prototype should not be on Child's prototype chain" )
 
 
@@ -74,16 +74,16 @@ assert( Grandpa.prototype.isPrototypeOf(parent),
 assert( Grandpa.prototype.isPrototypeOf(child),
             "Grandpa's prototype should be on child's chain" )
 
-assert( !Parent.prototype.isPrototypeOf(grandpa),
+assert( ! Parent.prototype.isPrototypeOf(grandpa),
             "Parent's prototype should not be on grandpa's chain" )
 assert( Parent.prototype.isPrototypeOf(parent),
             "Parent's prototype should be on parent's chain" )
 assert( Parent.prototype.isPrototypeOf(child),
             "Parent's prototype should be on child's chain" )
 
-assert( !Child.prototype.isPrototypeOf(grandpa),
+assert( ! Child.prototype.isPrototypeOf(grandpa),
             "Child's prototype should not be on grandpa's chain" )
-assert( !Child.prototype.isPrototypeOf(parent),
+assert( ! Child.prototype.isPrototypeOf(parent),
             "Child's prototype should not be on parent's chain" )
 assert( Child.prototype.isPrototypeOf(child),
             "Child's prototype should be on child's chain" )
